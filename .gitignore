@@ -1,0 +1,7 @@
+# Ignore following backend files
+backend/node_modules
+backend/package-lock.json
+
+# Ignore following frontend files
+frontend/node_modules
+frontend/package-lock.json
