@@ -1,0 +1,40 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Inspiration {
+  id               String     @id @default(auto()) @map("_id") @db.ObjectId
+  title            String
+  description      String //max 3000 characters
+  link             String
+  d_ss             String?
+  m_ss             String?
+  color            String?
+  fonts            String[]   @default([])
+  stack            String[]   @default([])
+  categories       Category[] @relation("Categories")
+  niche            String?
+  slug             Int?       @unique
+  meta_title       String?
+  meta_description String?
+  views            Int        @default(0)
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+}
+
+model Category {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  inspiration Inspiration? @relation("Categories", fields: [id], references: [id])
+}
